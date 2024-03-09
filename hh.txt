@@ -1,0 +1,58 @@
+//average of bottom LDRs
+  int avgleft = (topl + botl) / 2; //average of left LDRs
+  int avgright = (topr + botr) / 2; //average of right LDRs
+  Serial.println(avgtop);
+
+  if (TOLERANCE < avgbot - avgtop)
+  {
+    servoverti.write(servov + 1);
+    if (servov > servovLimitHigh)
+    {
+      servov = servovLimitHigh;
+    }
+    delay(STEP_DELAY);
+  }
+
+  else if (TOLERANCE < avgtop - avgbot)
+  {
+    servoverti.write(servov - 1);
+    if (servov < servovLimitLow)
+    {
+      servov = servovLimitLow;
+    }
+    delay(STEP_DELAY);
+  }
+
+  else
+  {
+    servoverti.write(servov);
+  }
+
+  if (avgleft - avgright > TOLERANCE)
+  {
+    servohori.write(servoh + 1);
+
+    if (servoh > servohLimitHigh)
+    {
+      servoh = servohLimitHigh;
+    }
+    delay(STEP_DELAY);
+  }
+
+  else if (avgright - avgleft > TOLERANCE)
+  {
+    servohori.write(servoh - 1);
+
+    if (servoh < servohLimitLow)
+    {
+      servoh = servohLimitLow;
+    }
+    delay(STEP_DELAY);
+  }
+
+  else
+  {
+    servohori.write(servoh);
+  }
+  delay(STEP_DELAY);
+}
